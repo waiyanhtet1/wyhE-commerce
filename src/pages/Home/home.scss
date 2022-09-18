@@ -1,0 +1,58 @@
+.mainContainer {
+    display: flex;
+    margin-top: 10px;
+
+
+    .mainWrapper {
+        flex: 8;
+
+
+        .widgetContainer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0px 20px;
+            gap: 20px;
+
+        }
+
+        .charts {
+            padding: 10px;
+        }
+
+        .homeUserInformation {
+            padding: 10px;
+            display: flex;
+            gap: 20px;
+        }
+    }
+
+    .status {
+        padding: 5px;
+        border-radius: 5px;
+
+        &.Approved {
+            color: green;
+            background-color: rgba(0, 128, 0, 0.151);
+        }
+
+        &.Pending {
+            color: goldenrod;
+            background-color: rgba(189, 189, 3, 0.103)
+        }
+
+        &.Rejected {
+            color: crimson;
+            background-color: rgba(255, 0, 0, 0.05);
+        }
+    }
+}
+
+@media only screen and (max-width:600px) {
+
+    .widgetContainer,
+    .homeUserInformation {
+        flex-direction: column;
+
+    }
+
+}

@@ -1,0 +1,56 @@
+.orderTableTitle {
+    margin-bottom: 10px;
+    padding-left: 15px;
+    font-size: 24px;
+}
+
+.orderTable {
+    padding: 20px;
+
+    .productInfo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .orderStatus {
+        padding: 5px;
+
+        &.confimed {
+            color: green;
+            background-color: rgba(0, 128, 0, 0.05);
+        }
+
+        &.pending {
+            color: goldenrod;
+            background-color: rgba(255, 217, 0, 0.05)
+        }
+
+        &.rejected {
+            color: crimson;
+            background-color: rgba(255, 0, 0, 0.05);
+        }
+    }
+
+    .buttonGroup {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px;
+        float: right;
+
+        .confimButton {
+            border: 1px solid green;
+            padding: 5px 8px;
+            border-radius: 5px;
+            background-color: rgba(0, 128, 0, 0.37);
+            cursor: pointer;
+
+            &:hover {
+                background-color: beige;
+            }
+        }
+
+
+    }
+}

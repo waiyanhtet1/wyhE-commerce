@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 10px 20px;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    .wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .logo {
+            font-size: 24px;
+            color: teal;
+        }
+
+        .items {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            .item {
+                margin-right: 15px;
+
+            }
+        }
+    }
+}

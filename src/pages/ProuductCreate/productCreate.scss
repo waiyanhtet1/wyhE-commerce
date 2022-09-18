@@ -1,0 +1,29 @@
+.createFormContainer {
+    border-radius: 10px;
+    padding: 50px;
+    margin: 20px 10px;
+    box-shadow: 10px 10px 29px -14px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 10px 29px -14px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 29px -14px rgba(0, 0, 0, 0.75);
+
+    .createformWrapper {
+        // width: 35%;
+
+        .createformControl {
+            // width: 100%;
+            margin-top: 10px;
+
+            .createFormInput {
+                margin-top: 5px;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid gray;
+            }
+
+            .errorMessage {
+                font-size: 12px;
+                color: crimson;
+            }
+        }
+    }
+}
