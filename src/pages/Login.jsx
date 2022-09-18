@@ -1,4 +1,9 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
@@ -37,13 +42,27 @@ const Input = styled.input`
   flex: 1;
   min-width: 40%;
   margin: 10px 0px;
+  font-size: 15px;
   padding: 10px;
   border: 1px solid gray;
 `;
 
-const Aggrement = styled.span`
+const CheckBoxContainer = styled.div`
+  /* margin-top: px; */
+  margin-bottom: 15px;
+`;
+
+const CheckBoxLabel = styled.label`
+  font-size: 15px;
+`;
+
+const CheckBox = styled.input`
+  margin-right: 10px;
+`;
+
+const ErrorMessage = styled.span`
   font-size: 12px;
-  margin: 20px 0px;
+  color: crimson;
 `;
 
 const Button = styled.button`
@@ -53,26 +72,77 @@ const Button = styled.button`
   color: white;
   border: none;
   cursor: pointer;
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
-const Link = styled.a`
+const StyleLink = styled(Link)`
   margin: 5px 0px;
   font-size: 12px;
-  text-decoration: underline;
+  color: #000;
   cursor: pointer;
 `;
 
 export default function Login() {
+  const [checked, setChecked] = useState(false);
+  const { clientFetching, clientError } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  console.log(state);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => login(dispatch, data, navigate);
+
+  console.log(errors);
   return (
     <Container>
       <Wrapper>
-        <Title>SIGN IN</Title>
-        <Form>
-          <Input placeholder="Eamil" />
-          <Input placeholder="Password" />
-          <Button>Login In</Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+        {state?.user ? (
+          <Title>Hello {state.user.username}, Please Login Here</Title>
+        ) : (
+          <Title>SIGN IN</Title>
+        )}
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            placeholder="Eamil"
+            type="email"
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+          />
+          <ErrorMessage>
+            {errors.email?.type === "required" && "Email is required"}
+          </ErrorMessage>
+
+          <Input
+            placeholder="Password"
+            type={checked ? "text" : "password"}
+            {...register("password", { required: true })}
+          />
+          <ErrorMessage>
+            {errors.password?.type === "required" && "Password is required"}
+          </ErrorMessage>
+          <ErrorMessage>{clientError}</ErrorMessage>
+
+          <CheckBoxContainer>
+            <CheckBox
+              type="checkbox"
+              // value={checked}
+              onChange={(e) => setChecked(e.target.checked)}
+            />
+            <CheckBoxLabel htmlFor="">Show Password</CheckBoxLabel>
+          </CheckBoxContainer>
+          <Button type="submit" disabled={clientFetching}>
+            Login In
+          </Button>
+          <StyleLink to="">DO NOT YOU REMEMBER THE PASSWORD?</StyleLink>
+          <StyleLink to="/register">CREATE A NEW ACCOUNT</StyleLink>
         </Form>
       </Wrapper>
     </Container>

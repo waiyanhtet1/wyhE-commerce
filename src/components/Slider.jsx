@@ -117,9 +117,7 @@ export default function Slider() {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <StyledLink to="/products">
-                <Button>Shop Now</Button>
-              </StyledLink>
+              <Button>Shop Now</Button>
             </InfoContainer>
           </Slide>
         ))}

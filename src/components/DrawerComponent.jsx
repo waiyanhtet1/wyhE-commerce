@@ -1,8 +1,7 @@
 import {
   AppRegistrationRounded,
-  Drafts,
-  Inbox,
   Login,
+  Logout as LogoutIcon,
   Search,
 } from "@mui/icons-material";
 import {
@@ -15,9 +14,11 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { logOut } from "../redux/userRedux";
 
 const SearchContainer = styled.div`
   padding: 5px;
@@ -38,6 +39,14 @@ const StyledLink = styled(Link)`
 `;
 
 export default function DrawerComponent({ openDrawer, setOpenDrawer }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    localStorage.clear();
+  };
+
   return (
     <Drawer
       open={openDrawer}
@@ -45,27 +54,47 @@ export default function DrawerComponent({ openDrawer, setOpenDrawer }) {
       onClose={() => setOpenDrawer(false)}
     >
       <List>
-        <ListSubheader>Register or Login</ListSubheader>
-        <ListItem>
-          <StyledLink to="/login">
-            <ListItemButton>
+        {!user ? (
+          <>
+            <ListSubheader>Register or Login</ListSubheader>
+            <ListItem>
+              <StyledLink to="/login">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Login />
+                  </ListItemIcon>
+                  <ListItemText primary="SIGN IN" />
+                </ListItemButton>
+              </StyledLink>
+            </ListItem>
+            <ListItem>
+              <StyledLink to="/register">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AppRegistrationRounded />
+                  </ListItemIcon>
+                  <ListItemText primary="REGISTER" />
+                </ListItemButton>
+              </StyledLink>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListSubheader>User Information</ListSubheader>
+            <ListItem>
+              <ListItemText primary={user.username} />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary={user.email} />
+            </ListItem>
+            <ListItemButton onClick={() => handleLogout()}>
               <ListItemIcon>
-                <Login />
+                <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary="SIGN IN" />
+              <ListItemText sx={{ color: "crimson" }} primary="Logout" />
             </ListItemButton>
-          </StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledLink to="/register">
-            <ListItemButton>
-              <ListItemIcon>
-                <AppRegistrationRounded />
-              </ListItemIcon>
-              <ListItemText primary="REGISTER" />
-            </ListItemButton>
-          </StyledLink>
-        </ListItem>
+          </>
+        )}
         <Divider />
       </List>
       <List>

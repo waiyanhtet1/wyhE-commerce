@@ -81,7 +81,7 @@ export default function ProductItem({ item }) {
           <ShoppingCartOutlined />
         </Icon>
         <Icon>
-          <StyledLink to="/products/:id">
+          <StyledLink to={`/product/${item._id}`}>
             <Search />
           </StyledLink>
         </Icon>

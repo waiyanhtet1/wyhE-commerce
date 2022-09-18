@@ -1,13 +1,30 @@
-import { Menu, Search, ShoppingCartOutlined } from "@mui/icons-material";
-import { Badge, IconButton, useMediaQuery } from "@mui/material";
+import {
+  AccountCircle,
+  Menu as MenuIcon,
+  Search,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
+import {
+  Badge,
+  IconButton,
+  useMediaQuery,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import styled from "styled-components";
 import { mobile } from "../responsive.js";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import DrawerComponent from "./DrawerComponent.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../redux/userRedux.js";
 
 const Container = styled.div`
   height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background-color: white;
 `;
 
 const Wrapper = styled.div`
@@ -61,7 +78,7 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-const MenuItem = styled.span`
+const MenuItemValue = styled.span`
   font-size: 14px;
   cursor: pointer;
   margin-right: 20px;
@@ -76,7 +93,16 @@ const StyledLink = styled(Link)`
 
 export default function Navbar() {
   const matches = useMediaQuery("(max-width:900px)");
+  const [open, setOpen] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cartQuantity);
+  const user = useSelector((state) => state.user.currentUser);
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    localStorage.clear();
+  };
 
   return (
     <Container>
@@ -89,7 +115,7 @@ export default function Navbar() {
                 setOpenDrawer={setOpenDrawer}
               />
               <IconButton onClick={() => setOpenDrawer(true)}>
-                <Menu />
+                <MenuIcon />
               </IconButton>
             </>
           )}
@@ -105,19 +131,61 @@ export default function Navbar() {
           </StyledLink>
         </Center>
         <Right>
-          <StyledLink to="/register">
-            <MenuItem>REGISTER</MenuItem>
-          </StyledLink>
-          <StyledLink to="/login">
-            <MenuItem>SIGN UP</MenuItem>
-          </StyledLink>
+          {!user && (
+            <>
+              <StyledLink to="/register">
+                <MenuItemValue>REGISTER</MenuItemValue>
+              </StyledLink>
+              <StyledLink to="/login">
+                <MenuItemValue>SIGN UP</MenuItemValue>
+              </StyledLink>
+            </>
+          )}
           <StyledLink to="/cart">
-            <MenuItem type="icon">
-              <Badge badgeContent={4} color="error">
+            <MenuItemValue type="icon">
+              <Badge badgeContent={cart} color="error">
                 <ShoppingCartOutlined />
               </Badge>
-            </MenuItem>
+            </MenuItemValue>
           </StyledLink>
+
+          {user && (
+            <>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={() => setOpen(true)}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem>{user?.username}</MenuItem>
+                <MenuItem>{user?.email}</MenuItem>
+                <MenuItem
+                  sx={{ color: "crimson" }}
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          )}
         </Right>
       </Wrapper>
     </Container>

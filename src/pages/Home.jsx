@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 import NewsLetter from "../components/NewsLetter";
 import Products from "../components/Products";
 import Slider from "../components/Slider";
-import SlideSwiper from "../components/SlideSwiper/SlideSwiper";
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
       <Announment />
       <Navbar />
       <Slider />
-      {/* <SlideSwiper /> */}
       <Categories />
       <Products />
       <NewsLetter />

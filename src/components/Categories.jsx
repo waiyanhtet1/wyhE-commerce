@@ -5,9 +5,10 @@ import CategoryItem from "./CategoryItem";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  ${mobile({ padding: "0px", flexDirection: "column" })}
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  ${mobile({ flexDirection: "column" })}
 `;
 
 export default function Categories() {
